@@ -13,14 +13,18 @@ class AbstractCartSession(ABC):
 
 
 class AbstractCartHandler(ABC):
+    @abstractmethod
     def validate(self, products) -> List[Dict[str, Any]]:
         ...
 
+    @abstractmethod
     def is_valid(self, products) -> bool:
         ...
 
+    @abstractmethod
     def make(self, products) -> bool:
         ...
 
+    @abstractmethod
     def error_log(self, products) -> Optional[str]:
         ...
