@@ -1,7 +1,9 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
+
 from rest_framework.test import APIClient
-from .models import CartItem
+
+from ..models import CartItem
 
 
 class CartViewTestCase(TestCase):

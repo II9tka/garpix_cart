@@ -4,11 +4,8 @@ INSTALLED_APPS += [
     'garpix_cart',
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ]
-}
+GARPIX_CART_SESSION_KEY = 'cart'
 
-CART_SESSION_KEY = 'cart'
+GARPIX_CART_MIXIN = 'garpix_cart.mixins.CartMixin'
+GARPIX_CART_SESSION_CLASS = 'garpix_cart.base.BaseCartSession'
+GARPIX_CART_SESSION_HANDLER_CLASS = 'garpix_cart.base.BaseCartHandler'

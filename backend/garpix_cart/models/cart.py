@@ -1,7 +1,8 @@
 from django.conf import settings
 from django.db import models
+from django.utils.module_loading import import_string
 
-from .mixins import CartMixin
+CartMixin = import_string(settings.GARPIX_CART_MIXIN)
 
 
 class CartItem(CartMixin):

@@ -1,5 +1,6 @@
-from drf_yasg import openapi
-from drf_yasg.utils import swagger_auto_schema
+from django.conf import settings
+from django.utils.module_loading import import_string
+
 from rest_framework import parsers
 from rest_framework import permissions
 from rest_framework import status
@@ -7,9 +8,13 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from .classes import BaseCartSession
-from .models import CartItem
-from .serializers import CartItemSerializer
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+
+from ..models import CartItem
+from ..serializers import CartItemSerializer
+
+CartSession = import_string(settings.GARPIX_CART_SESSION_CLASS)
 
 
 class CartView(viewsets.ViewSet):
@@ -94,7 +99,7 @@ class CartView(viewsets.ViewSet):
 
     @action(detail=False, methods=['GET'], permission_classes=(permissions.AllowAny,))
     def session_list(self, request):
-        base_cart_session = BaseCartSession(request.session)
+        base_cart_session = CartSession(request.session)
 
         return Response(
             base_cart_session.list(), status=status.HTTP_200_OK
@@ -103,7 +108,7 @@ class CartView(viewsets.ViewSet):
     @action(detail=False, methods=['POST'], permission_classes=(permissions.AllowAny,))
     def session_remove(self, request):
         data = request.data.get('data', None)
-        base_cart_session = BaseCartSession(request.session)
+        base_cart_session = CartSession(request.session)
 
         if base_cart_session.remove.is_valid(data):
             base_cart_session.remove.make(data)
@@ -120,7 +125,7 @@ class CartView(viewsets.ViewSet):
     def session_add(self, request):
         """
         {
-            "data": 
+            "data":
             [
                 {
                     "product": "1",
@@ -132,7 +137,7 @@ class CartView(viewsets.ViewSet):
         """
 
         data = request.data.get('data', None)
-        base_cart_session = BaseCartSession(request.session)
+        base_cart_session = CartSession(request.session)
 
         if base_cart_session.add.is_valid(data):
             base_cart_session.add.make(data)

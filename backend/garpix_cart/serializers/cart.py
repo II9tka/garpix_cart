@@ -1,5 +1,6 @@
 from rest_framework.serializers import ModelSerializer
-from .models import CartItem
+
+from ..models import CartItem
 
 
 class CartItemSerializer(ModelSerializer):
